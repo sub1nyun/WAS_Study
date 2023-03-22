@@ -1,0 +1,69 @@
+# 개념잡기
+
+CPU(연산장치) 
+RAN(저장장치)
+
+CPU - 일하는 노동자가 한 명 (프로세스 1개)
+ex) tomcat8과 카카오톡 등 여러 프로그램을 왔다 갔다 해야함
+
+1명이 Thread(실, 수명)을 만들어서 프로그램을 특정 영역에 기억(Context) 해두고 왔다 갔다함
+-Time 슬라이싱 
+-Context Switching
+#Context(문맥) : 전 후 사정
+
+
+# 프로세스 서비스
+- apt 명령어로 설치하게 되면 -> 서비스에 등록 
+  -> 이점 : 실행파일을 직접 찾아서 실행할 필요가 없어짐
+
+# 서비스 목록 확인
+service --status-all
++ : 실행중인 서비스
+- : 실행중이지 않은 서비스
+
+서비스 명령어는 기본적으로 잘 사용하지 않음 -> 모든 시스템을 제어 할 수는 없고, systemctl의 wrapper script임
+
+# systemctl 명령어
+- systemctl list-unit-files : 시스템(데몬) 목록확인하기
+ex) 특정 프로그램 검색하기 - sudo systemctl list-unit-files | grep tomcat8
+
+- 프로그램 상태 확인해보기
+sudo systemctl status tomcat8 -> running 이라면 실행중(dead 반대)
+
+- 프로그램 종료시키기
+sudo systemctl stop tomcat8
+
+- 프로그램 실행시키기
+sudo systemctl start tomcat8
+동작하게 된 프로그램 -> '프로세스' -> 계속 동작중 -> 데몬(while)프로세스
+
+
+######## ps 명령어
+ps(프로세스)
+ps -ef : 실행중인 프로세스를 모두 볼 수 있음
+  pid: 프로세스 관리 아이디
+  C : cpu 사용량
+# 사용이 의유 
+  프로그램이 종료가 되지 않는 경우가 있을 수 있고, 서비스로 등록이 되어있지 않는 프로세스가 있을 수 있음 -> 서비스로 종료를 못함 -> 직접 강제 종료
+
+ps 종료하기
+kill -l : 옵션 확인
+kill -9 pid (강제종료)
+
+## 안전하게 종료하기 kill의 15번 옵션
+- 종료하기 위해서는 프로세스의 pid를 먼저 알아야함
+pid 검색 : ps -ef | grep tomcat8
+종료하기 : kill pid 
+
+종료가 되면 exited 일시정지 상태가 되는데
+- systemctl 입장에서는 exit 된 것이라 start가 아닌 restart로만 실행이 됨(종료후 재시작) -> 종료가 아닌 중지 상태이기 때문에
+## 다시 실행시키기
+sudo systemctl restart tomcat8 
+
+
+
+### grep - v ~~~ 지정된 패턴과 일치하는 항목 제외
+
+
+
+
