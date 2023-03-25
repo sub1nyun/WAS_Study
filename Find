@@ -1,0 +1,24 @@
+##### find를 통한 파일 찾기
+
+ex) sudo find / -name tomcat8
+/ -> 최상위 부터
+-name 파일명으로 찾는다는 옵션 명시
+-tomcat* 을 사용하면 관련된 모든 파일 검색
+
+권한주기 옵션 (+)추가 ,마 뒤에 띄어쓰기 하지 않음
+sudo chmod u+x,g+wx,o+x
+-u+x : u(user) root에 x 권한 추가
+-g+wx : g(Group)에 wx권한 추가
+-o+x : o(other)에 x 권한 추가
+
+(=) 덮어 씌우기
+
+
+##### port 변경해보기
+서버 설정 폴더로 이동
+ex) /var/lib/tomcat8/conf 
+- server.xml -> 8000으로 포트 변경
+
+설정 파일을 수정하면 서버를 재시작해야함
+- sudo service tomcat8 restart
+- 변경한 포트(8000)를 aws 인바운드 규칙(방화벽)에서 허용해야 접
