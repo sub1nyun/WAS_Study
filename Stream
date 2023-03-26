@@ -1,0 +1,32 @@
+#### 리눅스 명령어 표준입출력
+
+탭 우클릭 -> 듀플리케이트 탭 -> 새창띄우기
+
+- log를 본다느 개념을 이해하기
+
+1. 검색
+- sudo find / -name catalina.out -> tomcat의 log를 보여주는 파일 
+- ps -ef | grep tomcat -> tomcat/logs (catalina.out 로그파일 위치)
+
+2. 열어보기 위해서 tail 명령어 사용
+- tail -f catalina.out -> 기본적으로 10줄을 출력(실시간 서버 출력)
+- f 옵션은 실시간으로 로그를 보여주는 옵션 
+
+리눅스 표준입출력 3가지 모드
+
+1. 표준 입출력
+- 표준 입력 스트림 stdin(Standard Input Stream)
+- 표준 출력 스트림 stdout(Standard Output Stream)
+- 오류 출력 스트림 stderr(Standard Error Stream)
+
+2. 표준 스트림
+파일디스크립터 
+0 - 표준 입력
+1 - 표준 출력
+2 - 표준 에러
+
+모니터로 뱉는 출력을 파일로 > -> 표준 출력에 방향을 바꾸는것
+> -> 표준 입출력 변경
+sudo tail -f catalina.out > mylog.out 
+
+# vi mylog.out 으로 확인해보면 출력이 변경된것을 알 수 있음
