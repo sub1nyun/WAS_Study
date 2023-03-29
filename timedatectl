@@ -1,0 +1,12 @@
+### 타임존 변경
+
+- timedatectl 
+-> Local time이 UTC(미국)으로 잡혀있음
+
+-> timedatectl list-timezones (너무 많음)
+- timedatectl list-timezones | grep Seoul 
+
+서울로 세팅해주기
+sodu timedatectl set-timezone Asia/Seoul -> KST로 변경됨
+
+시간을 변경했다면 서버를 재시작 해야함
