@@ -1,0 +1,23 @@
+##### 스크립트 코딩하기
+
+- 리눅스 환경에서 파일 확장자는 큰 의미를 갖진않음
+
+1. vi spring-stop.sh
+#sh는 스크립트를 짠 파일이라는 것을 알리기 위해
+
+- echo "Springboot Stop...."
+- SPRING_PID=$(pgrep -f *.jar) -> 파일명을 정확히 명시하는것이 맞음
+- echo $SPRING_PID -> 변수명
+- kill -9 $SPRING_PID -> 위의 변수
+
+- chmod u+x spring-stop.sh -> x 권한 (실행파일) 주기
+
+기본적으로 echo 명령어는 오른쪽에 있는 것을 출력함
+
+SPRING_PID=$(pgrep -f *.jar) ->$뒤에 ()가 존재함
+$SPRING_PID  -> () 없음
+
+####  
+$변수 -> 변수의 값을 출력 혹은 실행
+$(명령어)  -> 명령어의 결과를 리턴
+
