@@ -1,0 +1,43 @@
+Spring-restart 하는 파일 작성해보기
+
+## ubuntu ~/cron-restart$  위치에서
+
+ - vi spring-restart.sh 스크립트 파일 작성
+
+## 파일 (spring-restart.sh)
+SPRING_PID=$(pgrep -f v1-0.0.1-SNAPSHOT.jar) # 파일명을 정확하게 입력해야함, 변수화
+SPRING_PATH="/home/ubuntu/aws-v1/build/libs/v1-0.0.1-SNAPSHOT.jar"
+ 
+(출력해보기 위함)
+echo $SPRING_PID 
+echo $SPRING_PATH
+( 대괄호에 양 끝에 여백 줘야함)
+if [ -z "$SPRING_PID" ]; then ##변수의 길이가 0 이라면 -> 서버가 off 상태이면 찾을 수 없기때문  -z -> 문자열의 길이가 0이면 참
+  echo "스프링 종료된 상태....."
+  echo "스프링 재시작 -$(date)" 1>>/home/ubuntu/cron-restart/spring-restart.log
+  nohup java -jar $SPRING_PATH 1>log.out 2>err.out &
+else
+  echo "스프링 시작된 상태....."
+fi
+
+# 작동이 잘 되기때문에 cron에 등록하여 직접 서버를 on&off 하지 않고 cron 이용하여 서버 재시작해보기
+# 스크립트로 작성할 것
+
+## 파일(deploy.sh)
+crontab -l > crontab_new (파일 옮기기)
+echo "* * * * * /home/ubuntu/cron-restart/spring-restart.sh" 1>> crontab_new
+crontab crontab_new (crontab으로 ~_new 파일을 실행시켜서 crontab에 등록시킴)
+rm crontab_new (등록이 됐기때문에 ~_new 파일이 필요 없음)
+
+
+
+spring-start 명령어
+------------------------
+nohup java -jar /home/ubuntu/aws-v1/build/libs/v1-0.0.1-SNAPSHOT.jar 1>log.out 2>err.out &
+
+
+
+## if문 작성법
+if [조건]; then
+else
+fi
