@@ -35,7 +35,70 @@ ex) a.txt (touch로 생성해서 있다는 가정)
  # 초록색 -> 실행파일
 ex) mt(바로가기)  -> /etc/alternatives/mt (실제 위치)
 
-## APT의 대한 이해 시작 
+
+#### APT
+- "apt"는 Advanced Packaging Tool의 약자로, Debian과 Ubuntu를 비롯한 Debian 계열 리눅스 배포판에서 사용되는 패키지 관리 도구입니다.
+ apt는 소프트웨어 패키지를 설치, 업데이트, 삭제 및 관리하는 데 사용됩니다.
+
+- apt를 사용하여 패키지를 다운로드하려면 우분투 레파지토리에 '/etc/apt/sources.list' 파일에 등록되어 있어야함
+- 레파지토리는 패키지가 저장되어 있는 서버의 주소와 정보를 토대로 찾고 다운로드를 진행함
+
+1. apt
+- (sudo) apt-cache search tomcat -> apt 저장소 목록에 tomcat이 있는지 검색 
+# 파이프라인 |
+- apt-cache search tomcat | grep tomcat -> grep 뭔가 찾아낼 때
+-     ▲ 해당 명령어의 결과가 | (파이프라인을 타고) grep으로 이동
+- apt list 우분투 레파지토리에 등록된 프로그램 목록 확인 (메뉴판 목록 확인)
+ex) apt list | grep tomcat -> 톰캣만 추려서 보여줌
+- apt update -> 레파지토리 목록 업데이트 ( 저장소 목록을 갱신할 권한이 없을 수 있음)
+# 리눅스 - 최상위 관리자 root 
+- sudo apt update -> sudo 명령어를 사용하면 최고관리자의 권한을 일임할 수 있음
+- sudo apt install 프로그램 명 -> 해당 프로그램을 설치하겠다는 것(권한필요) -y 옵션을 사용하면 설치 여부를 물어보지 않음
+->  설치가 됐다면 포트가 어떻게 활성화되었는지 확인해보기
+- sudo apt install net-tools (툴 먼저 설치)
+- netstat -nlpt -> 사용중인 포트 확인
+# 가장 처음 접속 시 방화벽에 의해 모든 접근이 막혀있음 -> aws에서 확인하기 -> 보안 그룹 -> 인바운드 규칙 -> 편집 -> 8080에 anywhere 추가 -> 접속이 가능
+# 인바운드 규칙 -> 어떤 포트가 접근이 가능한지 설정하는 것
+----- 삭제 해보기
+- sudo apt remove tomcat9  ---> 설정 파일은  지우지 않고 제거
+- sudo apt --purge remove tomcat9 ---> 설정 파일까지 모두 지움
+
+------- 만약 apt 목록에 필요한 패키지가 없다면?
+## 저장소를 추가하기 -> PPA(Personal Package Archive)
+### https://launchpad.net/ubuntu/+ppas 에서 필요한 패키지 검색 -> 나오는 명령어를 복붙하여 사용하기
+ex) sudo add-apt-repository ppa:rivergod/tomcat8.5 
+			  ▲공유자 id  ▲ 프로그램 명
+- ppa를 통해 등록했다면 => 설치가 됐다면 -> /ect/apt /sources.list.d 에서 확인해보기 
+### 우분투 버전에 따라서 지원이 되는 패키지가 다르기 때문에 -> 해당 우분투를 지원하는 패키지를 설치해야함 -> lsb_release -a -> 우분투 버전과 코드명 확인
+## 현재 ubuntu - Focal 버전 사용중
+- 잘못된 버전의 ppa 저장소를 삭제 하기
+- sudo add-apt-repository --remove ppa:rivergod/tomcat8.5 -> ls를 해봤을때 .save가 붙어있다면 삭제가 잘 된것
+정리 -> 필요한 패키지 검색 후 -> ppa 저장소에 설치 -> apt update를 통해 저장소에 등록 -> install
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
