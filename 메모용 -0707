@@ -35,6 +35,7 @@ ex) a.txt (touch로 생성해서 있다는 가정)
  # 초록색 -> 실행파일
 ex) mt(바로가기)  -> /etc/alternatives/mt (실제 위치)
 
+## APT의 대한 이해 시작 
 
 
 
