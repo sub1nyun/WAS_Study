@@ -76,6 +76,52 @@ ex) sudo add-apt-repository ppa:rivergod/tomcat8.5
 정리 -> 필요한 패키지 검색 후 -> ppa 저장소에 설치 -> apt update를 통해 저장소에 등록 -> install
 
 
+3. 프로세스 서비스
+- apt 명령어를 통해 설치했다면 ->  실행파일을 직접 찾아서 실행할 필요가 없음
+- 서비스 목록 확인 + -> 실행중 - -> 실행중이 아님
+- service --status-all 
+# sudo service tomcat8 stop , start, restart 
+##### 서비스 명령어는 주로 사용하지 않음 -> 굳이 사용하지 말자
+
+## systemctl -> 서비스 제어 명령어
+service 명령어는 systemctl의 wrapper script -> service 명령어로는 모든 서비스를 제어하기 어려움
+# systemctl -> 리눅스 시스템 서비스 관리 도구 -> 리눅스 배포판에서만 사용이 가능
+- sudo systemctl list-unit-files - 목록 확인하기 
+- sudo systemctl status tomcat8 -> 해당 프로세스 상태 확인해보기
+# active가 running 중이라면 -> 실행중이라는 것
+- sudo systemctl stop tomcat8 -> 해당 프로세스 종료하기 -> status가 dead라면 정지중
+계속해서 작동중인 프로세스 -> 데몬(whille) 프로세스
+
+### 프로세스 명령어
+# UID -> 프로세스 주인 #PID -> 프로세스 관리를 위한 아이디 #PPID -> 부모 프로세스 아이디 C -> CPU 사용량 
+
+- ps -ef -> 프로세스 목록 확인
+# systemctl 같은 명령어로 종료가 되지 않을 경우 -> 직접 강제 종료해야함 
+# 서비스로 등록이 안 되어 있는 프로세스 의 경우도 포함(내가 직접 압축파일을 풀고 실행했다면)
+
+- kill -l -> 프로세스 종료 옵션 확인
+# 가장 많이 사용하는 강제 종료 9번(sigkill) - 프로세스 입장에서는 찝찝하게 종료
+# 프로세스를 안전하게 종료하기 위해서는 -15 -> 기본 제공이기때문에 kill 프로세스id를 입력하면 됨
+-> 프로세스는 종료 되었지만 systemctl status로 보면 -> exited 일시정지로 판단함 -> systemctl start로 재가동이 불가능함 -> restart를 사용해야함
+## systemctl로 종료시켰다면 재실행이 가능하나 ps로 정지시켰다면 불가능함
+
+- 종료하기 위해서 프로세스 id를 알아보기
+ex) ps -ef | grep tomcat8
+## 프로세스 주인이 맞아야 종료할 수 있음 (sudo 사용)
+- sigint (ctrl+c) == kill -2 pid 옵션과 동일함
+##
+kill -15 pid -> sigterm은 안전한 종료 -> systemctl 입장에서는 exit 된 것이고 restart만 실행이 가능함
+
+##  자바와 같이 조건 if를 통해 스크립트 작성이 가능
+- ps -ef | grep tomcat8 | grep -v grep | awk '{print $1}' 
+# grep -v -> 조회되는 특정 부분 제외
+# awk -> 결과를 토큰화 해주는데 '{print $1}' -> 1번지의 값을 출력하겠다(인덱스와 유사함)
+- ``(백틱은 치환명령어로 ``으로 감싼 부분을 실행결과로 치환해준다)
+ex) sudo kill `ps -ef | grep tomcat8 | grep -v grep | awk '{print $2}'` 
+
+
+
+
 
 
 
