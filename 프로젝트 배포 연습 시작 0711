@@ -55,9 +55,11 @@ kill -9 $SPRING_PID
 job.sh --> ls -l을 -> cron.log에 덮어씀
 
 
-
-
-
+1. crontab -e -> 정기적 실행 ---> 직접 등록하지 않고 스크립트를 사용하여 등록하기
+--- myScript.sh를 실행하면 ====> 
+2. crontab -l 1>crontab_new ---> 내용을 crontab_new로 옮김
+3. crontab_new 가장 하단에 * * * * * job.sh (echo로 등록)   ------> crontab_new를 통해 crontab에 등록 완료 후 -> rm crontab_new를 통해 삭제
+4. crontab -e에 * * * * * job.sh가 추가 등록 됨
 
 ----- tip 
 # 프로젝트의 build.gradle에서 jar { enabled = false } 를 작성해야 *.plain.jar 파일이 생성되지 않음
