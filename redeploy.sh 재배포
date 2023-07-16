@@ -1,0 +1,46 @@
+1. 기존 서버를 중지 시켜야 함
+
+spring-stop.sh -> 실행권한 추가
+--------------------------------------------------
+echo "Springboot Stop...."
+SPRING_PID=$(pgrep -f v1-0.0.1-SNAPSHOT.jar)
+echo $SPRING_PID
+kill -9 $SPRING_PID
+
+2. aws-v1 폴더를 통째로 삭제하기 -> 더 이상 사용하지 않음
+- rm -r /home/ubuntu/aws-v1
+
+3. 다시 git clone 다운
+- git clone 주소
+
+4. gradlew 실행 권한주기
+- cd /home/ubuntu/aws-v1
+- chmod u+x gradlew
+
+5. 프로젝트 빌드
+- ./gradlew build
+
+6. jar를 실행하기
+- cd /home/ubuntu/aws-v1/build/libs ~
+- nohub java -jar 프로젝트명.jar 1>log.out 2>err.out &
+
+7. cron으로 자동 재시작
+
+deploy.sh
+-------------------------------------------------------------
+- echo "cron apply"
+- crontab -l > crontab_new
+- echo "* * * * * /home/ubuntu/cron-restart/spring-restart.sh" 1>> crontab_new
+- crontab crontab_new
+- rm crontab_new
+
+---------------> 모든 과정을 스크립트로 작성하면 편함 --> redeploy.sh
+하나의 배포 스크립트를 만들어주면 좋음 (최초 : 최초 배포프로세스, 재배포 -> 프로세스)
+-------------------------------------
+deploy.sh (배포)
+redeploy.sh (재배포)
+재배포 스크립트 작성
+---------------------------------
+추상적 방법 : 쉬운 방법 (AWS가 제공하는 좋은 서비스) ------
+
+
