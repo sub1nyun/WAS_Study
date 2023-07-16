@@ -22,21 +22,18 @@ git 에서 프로젝트를 다운받아서 EC2 서버에 배포 시작
 - cd build/libs ----- > 이동
 - java -jar *.jar -----> jar 파일이 하나라면 치환이 가능함, 여러가지가 있다면 파일명 입력 후 .jar 
 
-6. nohup 으로 실행
-- nohup java -jar 파일명 1>log.out 2>err.out &
-
-7. 시간 변경 -----> 타임존 변경(재실행)
+6. 시간 변경 -----> 타임존 변경(재실행)
 - timedatectl 명령어
 - timedatectl list-timezones ----> 지정이 가능한 지역  ---> timedatectl list-timezones | grep Seoul (S를 대문자로 해야함)
 - sudo timedatectl set-timezone Asia/Seoul ----> 아시아의 서울로 설정
+
+7 nohup 으로 실행
+- nohup java -jar 파일명 1>log.out 2>err.out &
 
 8. pid 찾기 (프로세스 아이디)
 - ps -ef | grep *.jar | grep -v grep | awk '{print $2}'
 # 간편한 방법 -----> pgrep
 pgrep -f *.jar ------> f 옵션은 프로세스의 풀네임 
-
-
---- cron을 통해서 스프링 서버 재시작해보기 ---- 
 
 ----- 스크립트 파일 짜보기 -> spring-stop.sh -> 실행권한을 줬음 -> .sh 스크립트 파일
 echo "Springboot Stop....."   ---> 오른쪽 내용을 출력하라는 명령어 echo
