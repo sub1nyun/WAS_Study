@@ -6,7 +6,7 @@ git 에서 프로젝트를 다운받아서 EC2 서버에 배포 시작
 #### 진행 사항
 1. 자바 설치 (JDK) 
 - sudo apt update
-- sudo aptt install openjdk-11-jdk -> 너무 많음으로 -> sudo apt-cache search jdk | grep openjdk-11
+- sudo apt install openjdk-11-jdk -> 너무 많음으로 -> sudo apt-cache search jdk | grep openjdk-11
 
 2. github 다운받기
 - git clone https://github.com/codingspecialist/aws-v1.git
