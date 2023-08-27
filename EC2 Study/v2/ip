@@ -60,3 +60,13 @@ aws-v2-0,0.1.jar (형태로 실행파일이 만들어짐)
 
 pgrep -f aws-v2-0.0.1.jar 실행 결과
 /home/ubuntu/aws-v2/build/libs/aws-v2-0.0.1.jar
+
+5. 프로젝트 폴더 삭제
+
+rm -rf /home/ubuntu/aws-v2
+
+6. 프로파일 엑티브 설정
+java -jar -Dspring.profiles.active=prod 해당 파일 실행
+
+7. 테스트 없이 jar 빌드하고 싶을때
+./gradlew build -x test 
