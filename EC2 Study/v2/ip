@@ -70,3 +70,105 @@ java -jar -Dspring.profiles.active=prod 해당 파일 실행
 
 7. 테스트 없이 jar 빌드하고 싶을때
 ./gradlew build -x test 
+
+
+재배포 스크립트 파일 작성 예시
+
+#!/bin/bash
+-- 환경변수 호출
+#1. env variable - 외부 환경 변수
+source ./var.sh
+echo "1. env variable setting complete"
+-- 크론 제거
+# 2. clone delete
+touch crontab_delete
+crontab crontab_delete
+rm crontab_delete
+echo "2. cron delete complete"
+-- 서버 실행중인지 체크
+# 3. server checking
+if [ -n "${PROJECT_PID}" ]; then ---> -n 문자열이 0이 아니라면 ---> 서버가 켜져있다는 것
+  # re deploy
+ kill -9 $PROJECT_PID
+ echo "3. project kill complete"
+else
+ # first deploy
+ 
+# 3-1 apt update
+sudo apt-get -y update 1>/dev/null   ----> -y 옵션을 통해서 설치 스크립트 묻지 않기 / 1>/dev/null -> 로그 휴지통으로 버리기
+echo "3-1 apt-get update complete"
+
+# 3-2 jdk install
+sudo apt-get -y install openjdk-11-jdk 1</dev/null
+echo "3-2 jdk install complete"
+
+# 3-3 timezone
+sudo timedatectl set-timezone Asia/Seoul
+echo "3-3 timezone setting compete"
+fi -> if 문 스크립트 마무리
+-- 프로젝트 폴더 제거
+# 4. project foler delete
+rm -rf ${HOME}/${PROJECT_NAME}
+echo "4. project folder delete complete"
+-- 프로젝트 제 설치
+# 5. git clone
+git clone https://github.com/${GITHUB_ID}/$P{PROJECT_NAME}.git
+sleep 3s
+echo "4. git clone complete"
+-- 실행 조건 추가
+# 6. gradlew +x
+chmod u+x ${HOME}/${PROJECT_NAME}/gradlew
+-- 빌드
+# 7. build
+cd ${HOME}/${PROJECT_NAME}
+./gradlew build
+echo "7. gradlew build complete"
+-- 백그라운드 실행
+# 8. start jar
+nohup java -jar -Dspring.profiles.active=prod ${JAR_PATH} 1>${HOME/}log.out 2>${HOME}/err.out &
+
+# 9. cron registration
+touch crontab_new
+echo "* * * * * ${HOME}/check-and-restart.sh"  1>crontab_new      ----> 1분마다 서버 동작을 확인하는 스크립트
+# register the others.... you use (crontab에 다른걸 추가 하고싶다면) >> (append 하기)
+crontab crontab_new
+rm crontab_new
+echo "9. cron registration complete"
+----> check-and-restart.sh 파일 생성해야함
+
+vi check-and-restart.sh
+
+#!/bin/bash
+
+source ./var.sh  ----> import와 유사한 개념
+
+if [ -z "$PROJECT_PID" ]; then -----> 문자열이 0이면 참 -> 즉 서버가 실행되고 있지 않다면
+ nohup java -jar -Dspring.profiles.active=prod ${JAR_PATH} 1>${HOME}/log.out 2>${HOME}/.
+fi
+---- > 생성 후 실행 권한을 줘야함
+
+8. tar 압축
+ -c tar로 압출을 할 때
+ -v 압축을 하거나 풀때 출력을 화면에 보여줄지 말지
+ -f 파일 이름을 지정할 수 있음
+ -x tar로 압출을 풀때
+
+- tar -cvf hello.tar a.txt b.txt -> a와 b 파일을 -> hello.tar로 압축
+-> tar -cvf hello.tar 파일명 파일명
+
+- tar -xvf hello.tar
+-> tar -xvf hello.tar  -> hello.tar 파일 압축을 푼다는 것
+# -v 옵션은 생략이 가능함 -> 화면에 표현하는 것이기 때문에 -> 보이는 것이 좋기 때문에 -v는 기본 옵션처럼 사용함
+
+ex) tar -cvf deploy.tar check-and-restart.sh deploy.sh var.sh 
+---> deploy.tar를 로컬 폴더로 이동시키기
+1. 세션을 새로 열어서 (SFTP 세션)
+- host 주소 및 Username : ubuntu 입력 후 - pirvate key 사용 
+- FTP 모드로 접속
+2. 만들어낸 tar 파일을 원하는 폴더로 이동 -> 드래그만 하면 됨
+
+
+
+
+
+
