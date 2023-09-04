@@ -4,3 +4,20 @@
     1. 엘라스틱빈스톡 환경 삭제
     2. 애플리케이션 삭제
     3. 모두 종료가 되면 -> 해당 ec2 인스턴스의 보안그룹에서 default를 제외한 보안그룹 제거
+
+2. 엘라스틱빈스톡 생성
+이름 - aws-v4-beanstalk
+
+3. 구성설정
+  - 소프트웨어 설정 -환경 속성 - 프로젝트(웹서버) -> 설정 속성은 환경 변수로서 애플리케이션에서 전달
+  - Environment properties 세팅
+  RDS_HOSTNAME : IP
+  RDS_DB_NAME : metadb
+  RDS_PORT : 3306
+  RDS_USERNAME : metacoding
+  RDS_PASSWORD : metacoding1234
+
+추후 : RDS_HOSTNAME : MariaDB ip 주소로 변경해야함
+- 배포가 잘 됐다면 환경 탭에서 -> 환경으로 이동을 눌러보면 배포가 성공했는지 확인 할 수 있음
+
+(2) 키페어 등록
