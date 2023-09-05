@@ -21,3 +21,14 @@
 - 배포가 잘 됐다면 환경 탭에서 -> 환경으로 이동을 눌러보면 배포가 성공했는지 확인 할 수 있음
 
 (2) 키페어 등록
+ec2
+퍼블릭 ip : 43.200.72.249
+프라이빗 ip : 172.31.1.222
+vpc id : vpc-08bbe19c77449c364
+보안그룹 이름 : awseb-e-mqkmmdwd2p-stack-AWSEBSecurityGroup-18FFQ0HB9RIUV
+보안 그룹 id : sg-0fa2a944b5916ee84
+
+5. RDS 생성
+이름 : aws-v4-rds
+앤드포인트 : aws-v4-rds.c5oz3he98tti.ap-northeast-2.rds.amazonaws.com
+포트 : 3306
